@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Scopes\TenantScope;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\BelongToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
-{
-    use HasApiTokens, HasFactory, Notifiable;
+class User extends Authenticatable {
+
+    use HasApiTokens, HasFactory, Notifiable, BelongToTenant;
 
     /**
      * The attributes that are mass assignable.
@@ -46,10 +45,5 @@ class User extends Authenticatable
     public function tenant()
     {
         return $this->belongsTo(Tenant::class);
-    }
-
-    protected static function booted()
-    {
-      static::addGlobalScope(new TenantScope());
     }
 }

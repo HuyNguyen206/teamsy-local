@@ -1,0 +1,10 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Traits\BelongToTenant;
+
+class {{ class }} extends BaseModel
+{
+    use BelongToTenant;
+}
