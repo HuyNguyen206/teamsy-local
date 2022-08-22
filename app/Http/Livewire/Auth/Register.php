@@ -2,17 +2,22 @@
 
 namespace App\Http\Livewire\Auth;
 
+use App\Models\Tenant;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class Register extends Component
 {
     /** @var string */
     public $name = '';
+
+    /** @var string */
+    public $companyName = '';
 
     /** @var string */
     public $email = '';
@@ -23,19 +28,35 @@ class Register extends Component
     /** @var string */
     public $passwordConfirmation = '';
 
+    protected $rules = [
+        'name' => ['required'],
+        'email' => ['required', 'email', 'unique:users'],
+        'companyName' => ['required', 'min:3', 'unique:tenants,name', 'string'],
+        'password' => ['required', 'same:passwordConfirmation'],
+    ];
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
     public function register()
     {
-        $this->validate([
-            'name' => ['required'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required', 'min:8', 'same:passwordConfirmation'],
+        $this->validate();
+
+        $tenant = Tenant::create([
+            'name' => $this->companyName,
         ]);
 
         $user = User::create([
             'email' => $this->email,
             'name' => $this->name,
+            'role' => 'admin',
             'password' => Hash::make($this->password),
+            'tenant_id' => $tenant->id
         ]);
+
+//        $user->tenant()->associate()
 
         event(new Registered($user));
 
