@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome')->name('home');
+
 
 Route::middleware('guest')->group(function () {
     Route::get('login', Login::class)
@@ -38,19 +38,22 @@ Route::get('password/reset/{token}', Reset::class)
     ->name('password.reset');
 
 Route::middleware('auth')->group(function () {
+    Route::view('/team', 'team')->name('team.index');
+    Route::view('/team/add-user', 'users.create')->name('users.create');
     Route::get('email/verify', Verify::class)
         ->middleware('throttle:6,1')
         ->name('verification.notice');
 
     Route::get('password/confirm', Confirm::class)
         ->name('password.confirm');
-});
 
-Route::middleware('auth')->group(function () {
     Route::get('email/verify/{id}/{hash}', EmailVerificationController::class)
         ->middleware('signed')
         ->name('verification.verify');
-
-    Route::post('logout', LogoutController::class)
-        ->name('logout');
+    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::view('', 'dashboard')->name('dashboard');
+//    Route::post('logout', LogoutController::class)
+//        ->name('logout');
+    Route::get('logout', LogoutController::class)->name('logout');
 });
+

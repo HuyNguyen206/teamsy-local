@@ -8,7 +8,7 @@
     ])
 @php
     $liveWireModelName = $attributes->whereStartsWith('wire:model');
-    $nameError = $liveWireModelName->get('wire:model.debounce.500ms');
+    $nameError = $liveWireModelName->first();
 @endphp
 <div @if($class) class="{{$class}}" @endif >
     <label for="{{$label}}" class="block text-sm font-medium text-gray-700 leading-5">
