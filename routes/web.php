@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
         ->middleware('signed')
         ->name('verification.verify');
     Route::view('dashboard', 'dashboard')->name('dashboard');
-    Route::view('', 'dashboard')->name('dashboard');
+    Route::view('', 'dashboard')->name('home');
 //    Route::post('logout', LogoutController::class)
 //        ->name('logout');
     Route::get('logout', LogoutController::class)->name('logout');
