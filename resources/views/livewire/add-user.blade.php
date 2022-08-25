@@ -1,8 +1,8 @@
 <div>
     @if($message = session('success_message'))
-    <div class="py-4 px-2 bg-green-600 text-white rounded my-4">
-        <p>{{$message}}</p>
-    </div>
+        <div class="py-4 px-2 bg-green-600 text-white rounded my-4">
+            <p>{{$message}}</p>
+        </div>
     @endif
     <form wire:submit.prevent="submit" enctype="multipart/form-data">
         <div class="grid grid-cols-6 gap-6">
@@ -43,19 +43,21 @@
                 <div class="flex flex-items-center">
                     <div class="flex-shrink-0 h-10 w-10 mr-4">
                         @if($photo)
-                        <img class="h-10 w-10 rounded-full"
-                             src="{{$photo->temporaryUrl()}}"
-                             alt="">
+                            <img class="h-10 w-10 rounded-full"
+                                 src="{{$photo->temporaryUrl()}}"
+                                 alt="">
                         @else
-                        <svg class="h-10 w-10 text-gray-300 rounded-full" fill="currentColor" viewBox="0 0 24 24">
-                            <path
-                                d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
-                        </svg>
-                            @endif
+                            <svg class="h-10 w-10 text-gray-300 rounded-full" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            </svg>
+                        @endif
 
                     </div>
                     <div>
-                        <input type="file" wire:model="photo" @error('photo') class="border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red " @enderror">
+                        <input type="file" wire:model="photo"
+                               @error('photo') class="border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red " @enderror
+                        ">
 
                         @error('photo')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -63,7 +65,12 @@
                     </div>
                 </div>
             </div>
-
+            <div class="col-span-6">
+                <input type="file" wire:model="application" @error('application') class="border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red" @enderror>
+                @error('application')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
             <div class="col-span-6 sm:col-span-3">
                 <label for="status" class="block text-sm font-medium leading-5 text-gray-700">Status</label>
                 <select wire:model="status"

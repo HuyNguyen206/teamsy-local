@@ -6,6 +6,7 @@ use App\Traits\BelongToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable {
@@ -41,5 +42,15 @@ class User extends Authenticatable {
     public function tenant()
     {
         return $this->belongsTo(Tenant::class);
+    }
+
+    public function getAvatar()
+    {
+        return $this->photo ? Storage::disk('s3-public')->url($this->photo) : null;
+    }
+
+    public function getApplicationUrl()
+    {
+        return '#';
     }
 }

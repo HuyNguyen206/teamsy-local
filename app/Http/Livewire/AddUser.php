@@ -27,6 +27,7 @@ class AddUser extends Component
             'status' => 'required|boolean',
             'role' => 'required|string',
             'photo' => 'image|max:1024',
+            'application' => 'file|mimes:pdf|max:1024',
         ]);
         $fileName = $this->photo->store('photos', 's3-public');
         $validated = array_merge($validated, ['photo' => $fileName, 'password' => bcrypt('password')]);
