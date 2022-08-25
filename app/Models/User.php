@@ -53,4 +53,9 @@ class User extends Authenticatable {
     {
         return '#';
     }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
 }

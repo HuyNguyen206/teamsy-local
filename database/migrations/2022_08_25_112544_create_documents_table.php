@@ -15,7 +15,12 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->index()->constrained();
             $table->foreignId('tenant_id')->nullable()->index()->constrained();
+            $table->string('type');
+            $table->string('file_name');
+            $table->string('extension');
+            $table->integer('size');
             $table->timestamps();
         });
     }
