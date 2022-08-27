@@ -66,6 +66,9 @@
                 </div>
             </div>
             <div class="col-span-6">
+                <label class="block text-sm leading-5 font-medium text-gray-700 mb-2">
+                    Application
+                </label>
                 <input type="file" wire:model="document" @error('document') class="border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red" @enderror>
                 @error('document')
                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>

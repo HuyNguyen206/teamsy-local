@@ -29,15 +29,22 @@ class AddUser extends Component
             'status' => 'required|boolean',
             'role' => 'required|string',
             'photo' => 'image|max:1024',
-            'application' => 'file|mimes:pdf|max:1024',
+            'document' => 'file|mimes:pdf|max:1024',
         ]);
         $fileName = $this->photo->store('photos', 's3-public');
-        $validated = array_merge(Arr::except($validated, 'application'), ['photo' => $fileName, 'password' => bcrypt('password')]);
+        $validated = array_merge(Arr::except($validated, 'document'), ['photo' => $fileName, 'password' => bcrypt('password')]);
+
         $user = User::create($validated);
-        $documentName = $this->document->store('documents', 's3');
+        $fileName = pathinfo($this->document->getClientOriginalName(), PATHINFO_FILENAME)
+            .'-'. now()->timestamp.'.'.$this->document->getClientOriginalExtension();
+        $this->document->storeAs("documents/{$user->id}", $fileName, 's3');
         $user->documents()->create([
-            'file_name' => $documentName
+            'file_name' => $fileName,
+            'type' => 'application',
+            'extension' => $this->document->getClientOriginalExtension(),
+            'size' => $this->document->getSize(),
         ]);
+
         session()->flash('success_message', 'Member was add successfully!');
     }
 
