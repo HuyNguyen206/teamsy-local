@@ -55,6 +55,6 @@ Route::middleware('auth')->group(function () {
 //    Route::post('logout', LogoutController::class)
 //        ->name('logout');
     Route::get('logout', LogoutController::class)->name('logout');
-    Route::get('documents/{user}/{document:file_name}', [\App\Http\Controllers\DocumentController::class, 'show'])->name('documents.show');
+    Route::get('documents/view/{document}', [\App\Http\Controllers\DocumentController::class, 'show'])->name('documents.show');
 });
 

@@ -6,15 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Document;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
-class DocumentController extends Controller
-{
-    public function show(User $user, Document $document)
+class DocumentController extends Controller {
+
+    public function show(Document $document)
     {
-        if ($user->id !== $document->user_id) {
+        if (!\request()->user()->isAdmin()) {
             abort(403, Response::HTTP_FORBIDDEN);
         }
 
+        return \response(Storage::disk('s3')->get($document->file_name))->header('Content-Type', 'application/pdf');
     }
 }

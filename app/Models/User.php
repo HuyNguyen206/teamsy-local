@@ -49,13 +49,23 @@ class User extends Authenticatable {
         return $this->photo ? Storage::disk('s3-public')->url($this->photo) : null;
     }
 
-    public function getApplicationUrl()
+    public function getDocument()
     {
-        return '#';
+        return $this->documents()->latest()->first();
+    }
+
+    public function getApplicationUrl($documentId)
+    {
+        return route('documents.show', $documentId);
     }
 
     public function documents()
     {
         return $this->hasMany(Document::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
     }
 }
