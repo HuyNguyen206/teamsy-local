@@ -14,4 +14,9 @@ class Document extends BaseModel
     {
         return $this->belongsTo(User::class);
     }
+
+    public function privateUrl()
+    {
+        return url($this->file_name);
+    }
 }

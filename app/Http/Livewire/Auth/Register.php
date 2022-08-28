@@ -14,16 +14,16 @@ use Livewire\Component;
 class Register extends Component
 {
     /** @var string */
-    public $name = '';
+    public $name = 'huy';
 
     /** @var string */
-    public $companyName = '';
+    public $companyName = 'Laracast';
 
     /** @var string */
-    public $email = '';
+    public $email = 'nguyenlehuyuit@gmail.com';
 
     /** @var string */
-    public $password = '';
+    public $password = 'password';
 
     /** @var string */
     public $passwordConfirmation = '';
@@ -51,7 +51,7 @@ class Register extends Component
         $user = User::create([
             'email' => $this->email,
             'name' => $this->name,
-            'role' => 'admin',
+            'role' => 'Admin',
             'password' => Hash::make($this->password),
             'tenant_id' => $tenant->id
         ]);

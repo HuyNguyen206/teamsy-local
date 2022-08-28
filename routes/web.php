@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\HomeController;
 use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\Passwords\Confirm;
 use App\Http\Livewire\Auth\Passwords\Email;
@@ -50,11 +51,21 @@ Route::middleware('auth')->group(function () {
     Route::get('email/verify/{id}/{hash}', EmailVerificationController::class)
         ->middleware('signed')
         ->name('verification.verify');
-    Route::view('dashboard', 'dashboard')->name('dashboard');
     Route::view('', 'dashboard')->name('home');
 //    Route::post('logout', LogoutController::class)
 //        ->name('logout');
     Route::get('logout', LogoutController::class)->name('logout');
     Route::get('documents/view/{document}', [\App\Http\Controllers\DocumentController::class, 'show'])->name('documents.show');
 });
+Route::get('dashboard', [HomeController::class, 'show'])->name('dashboard');
 
+Route::get('/load-logins', function() {
+    $users = App\User::withoutGlobalScopes()->whereNotNull('tenant_id')->get();
+    foreach($users as $user) {
+        \App\Models\Login::factory()->create([
+            'user_id' => $user->id,
+            'tenant_id' => $user->tenant_id,
+            'created_at' => now(),
+        ]);
+    }
+});

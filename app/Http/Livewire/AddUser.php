@@ -29,7 +29,7 @@ class AddUser extends Component
             'status' => 'required|boolean',
             'role' => 'required|string',
             'photo' => 'image|max:1024',
-            'document' => 'file|mimes:pdf|max:1024',
+            'document' => 'file|mimes:pdf|max:10000',
         ]);
 
         $fileName = $this->photo->store('photos', 's3-public');
@@ -47,6 +47,20 @@ class AddUser extends Component
         ]);
 
         session()->flash('success_message', 'Member was add successfully!');
+    }
+
+    public function updatedPhoto()
+    {
+        $this->validate([
+            'photo' => 'image|max:1024', // 1MB Max
+        ]);
+    }
+
+    public function updatedDocument()
+    {
+        $this->validate([
+            'document' => 'file|mimes:pdf|max:10000', // 1MB Max
+        ]);
     }
 
 

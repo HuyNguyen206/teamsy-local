@@ -55,9 +55,11 @@
 
                     </div>
                     <div>
+                        <div wire:loading wire:target="photo">
+                            <x-loading class="mr-4" />
+                        </div>
                         <input type="file" wire:model="photo"
-                               @error('photo') class="border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red " @enderror
-                        ">
+                               @error('photo') class="border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red " @enderror">
 
                         @error('photo')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -69,6 +71,16 @@
                 <label class="block text-sm leading-5 font-medium text-gray-700 mb-2">
                     Application
                 </label>
+                <div>
+                    @if($document)
+                        <div class="flex-shrink-0 h-10 w-5 mr-4">
+                            <x-document-icon />
+                        </div>
+                    @endif
+                </div>
+                <div wire:loading wire:target="document">
+                    <x-loading class="mr-4" />
+                </div>
                 <input type="file" wire:model="document" @error('document') class="border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:ring-red" @enderror>
                 @error('document')
                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -100,6 +112,9 @@
 
         <div class="mt-8 border-t border-gray-200 pt-5">
             <div class="flex justify-end">
+                <div wire:loading wire:target="submit">
+                    <x-loading class="mr-4" />
+                </div>
                 <span class="inline-flex rounded-md shadow-sm">
                     <button type="submit"
                             class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">

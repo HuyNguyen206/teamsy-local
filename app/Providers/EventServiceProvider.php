@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\RecordLogin;
 use App\Listeners\SetTenantIdInSession;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
@@ -20,7 +21,10 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        Login::class => [SetTenantIdInSession::class]
+        Login::class => [
+            SetTenantIdInSession::class,
+            RecordLogin::class,
+        ]
     ];
 
     /**

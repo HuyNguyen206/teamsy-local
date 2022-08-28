@@ -46,7 +46,9 @@ class User extends Authenticatable {
 
     public function getAvatar()
     {
-        return $this->photo ? Storage::disk('s3-public')->url($this->photo) : null;
+        return $this->photo ?
+            Storage::disk('s3-public')->url($this->photo)
+            :  'https://avatars.dicebear.com/api/initials/' . $this->name . '.svg';
     }
 
     public function getDocument()
@@ -67,5 +69,12 @@ class User extends Authenticatable {
     public function isAdmin()
     {
         return $this->role === 'admin';
+    }
+
+    public static function search($query)
+    {
+        return empty($query) ? static::query()
+            : static::where('name', 'like', '%'.$query.'%')
+                ->orWhere('email', 'like', '%'.$query.'%');
     }
 }
