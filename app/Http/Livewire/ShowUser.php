@@ -52,4 +52,20 @@ class ShowUser extends Component {
             'users' => $query->with('documents')->paginate($this->perPage),
         ]);
     }
+
+    public function impersonate($impersonateUserId)
+    {
+        $user = auth()->user();
+        if ($user === null) {
+            return $this->redirect(route('login'));
+        }
+        if (! $user->isSuperAdmin()) {
+            abort(403);
+        }
+        session()->put('origin_user_id', $user->id());
+        auth()->loginUsingId($impersonateUserId);
+
+        return $this->redirect(route('team.index'));
+
+    }
 }

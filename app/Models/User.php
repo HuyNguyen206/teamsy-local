@@ -77,4 +77,9 @@ class User extends Authenticatable {
             : static::where('name', 'like', '%'.$query.'%')
                 ->orWhere('email', 'like', '%'.$query.'%');
     }
+
+    public function isSuperAdmin()
+    {
+        return $this->tenant_id === null;
+    }
 }

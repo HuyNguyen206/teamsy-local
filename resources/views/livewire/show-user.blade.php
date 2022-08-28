@@ -34,11 +34,13 @@
                 <table class="min-w-full">
                     <thead>
                     <tr>
-                        <x-th label="Name" value="name" :canSort="true" :sortField="$sortField" :sortAsc="$sortAsc" />
-                        <x-th label="Title" value="title" :canSort="true" :sortField="$sortField" :sortAsc="$sortAsc" />
-                        <x-th label="Status" value="status" :canSort="false" :sortField="$sortField" :sortAsc="$sortAsc" />
-                        <x-th label="Role" value="role" :canSort="true" :sortField="$sortField" :sortAsc="$sortAsc" />
-                        <x-th label="Application" value="application" :canSort="false" :sortField="$sortField" :sortAsc="$sortAsc" />
+                        <x-th label="Name" value="name" :canSort="true" :sortField="$sortField" :sortAsc="$sortAsc"/>
+                        <x-th label="Title" value="title" :canSort="true" :sortField="$sortField" :sortAsc="$sortAsc"/>
+                        <x-th label="Status" value="status" :canSort="false" :sortField="$sortField"
+                              :sortAsc="$sortAsc"/>
+                        <x-th label="Role" value="role" :canSort="true" :sortField="$sortField" :sortAsc="$sortAsc"/>
+                        <x-th label="Application" value="application" :canSort="false" :sortField="$sortField"
+                              :sortAsc="$sortAsc"/>
                         <th class="px-6 py-3 border-b border-gray-200 bg-gray-50">
                             <span class="flex rounded-md justify-end">
                                 <a href="{{route('users.create')}}" type="button"
@@ -60,7 +62,14 @@
                                              alt="">
                                     </div>
                                     <div class="ml-4">
-                                        <div class="text-sm leading-5 font-medium text-gray-900">{{$user->name}}</div>
+                                        <div class="flex space-x-2 items-center">
+                                            <div
+                                                class="text-sm leading-5 font-medium text-gray-900">{{$user->name}}</div>
+                                            @if($super)
+                                                <a href="#" wire:click="impersonate({{$user->id}})"
+                                                   class="text-xs text-indigo-500">Impersonate</a>
+                                            @endif
+                                        </div>
                                         <div class="text-sm leading-5 text-gray-500">{{$user->email}}</div>
                                     </div>
                                 </div>
@@ -88,7 +97,8 @@
                             <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
                                 <div class="flex justify-center">
                                     @if($application = $user->documents->where('type', 'application')->first())
-                                        <a href="{{$application->privateUrl()}}" target="_blank">{{--open new window svg--}}
+                                        <a href="{{$application->privateUrl()}}"
+                                           target="_blank">{{--open new window svg--}}
                                             <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 20 20">
                                                 <path
                                                     d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
