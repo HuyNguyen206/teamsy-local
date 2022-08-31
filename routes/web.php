@@ -58,7 +58,13 @@ Route::middleware('auth')->group(function () {
         ->middleware('signed')
         ->name('verification.verify');
     Route::get('documents/view/{document}', [\App\Http\Controllers\DocumentController::class, 'show'])->name('documents.show');
+    Route::get('chart-api/login-chart', function () {
+        $chart = new \App\Charts\LoginChart();
 
+        $chart->dataset('Sample Test', 'line', [3,4,1]);
+
+        return $chart->api();
+    })->name('login-chart');
 });
 Route::get('dashboard', [HomeController::class, 'show'])->name('dashboard');
 

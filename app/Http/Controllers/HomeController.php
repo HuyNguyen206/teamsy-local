@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\LoginChart;
 use App\Models\Login;
 use App\Models\Tenant;
 use App\Models\User;
@@ -21,11 +22,7 @@ class HomeController extends Controller {
             $usersCount = User::count();
             $loginsCount = Login::count();
 
-            return view('super.dashboard', [
-                'subscribersCount' => $subscribersCount,
-                'usersCount' => $usersCount,
-                'loginsCount' => $loginsCount,
-            ]);
+            return view('super.dashboard', compact('subscribersCount', 'usersCount', 'loginsCount'));
         }
     }
 }
